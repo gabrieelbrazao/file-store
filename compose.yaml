@@ -1,0 +1,31 @@
+services:
+  file-store:
+    build: .
+    depends_on:
+      - mongo
+      - rabbitmq
+    networks:
+      - people
+  mongo:
+    image: 'mongo'
+    volumes:
+      - 'mongo-data:/data/db'
+    ports:
+      - '27017:27017'
+    networks:
+      - people
+  rabbitmq:
+    image: 'rabbitmq:management'
+    volumes:
+      - 'rabbitmq-data:/var/lib/rabbitmq'
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - people
+volumes:
+  mongo-data:
+  rabbitmq-data:
+networks:
+  people:
+    driver: bridge
