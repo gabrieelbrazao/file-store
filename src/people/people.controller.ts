@@ -12,14 +12,11 @@ export class PeopleController {
     @Payload(new ParseArrayPipe({ items: PeopleDto })) people: PeopleDto[],
     @Ctx() context: RmqContext,
   ) {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
 
     await this.peopleService.savePeopleData(people);
 
-    /* eslint-disable @typescript-eslint/no-unsafe-call */
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     channel.ack(originalMsg);
   }
 }
