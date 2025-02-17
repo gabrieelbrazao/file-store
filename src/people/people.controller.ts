@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, ParseArrayPipe } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { PeopleDto } from './dtos';
 import { PeopleService } from './people.service';
@@ -9,7 +9,7 @@ export class PeopleController {
 
   @EventPattern('processed-people')
   async savePeopleData(
-    @Payload() people: PeopleDto[],
+    @Payload(new ParseArrayPipe({ items: PeopleDto })) people: PeopleDto[],
     @Ctx() context: RmqContext,
   ) {
     /* eslint-disable @typescript-eslint/no-unsafe-assignment */

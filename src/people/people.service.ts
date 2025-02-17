@@ -17,13 +17,6 @@ export class PeopleService {
   private readonly logger = new Logger(PeopleService.name);
 
   async savePeopleData(people: PeopleDto[]) {
-    if (!Array.isArray(people)) {
-      const message = 'Invalid payload: expected an array.';
-
-      this.logger.error(message);
-      throw new Error(message);
-    }
-
     await this.savePeople(people);
 
     const peopleByState = await this.groupPeopleByState();
