@@ -1,1 +1,2 @@
-export * from './peoplePerState.schema';
+export * from './people.schema';
+export * from './peopleByState.schema';
