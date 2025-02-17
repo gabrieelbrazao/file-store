@@ -3,8 +3,7 @@ import { PeopleDto } from './dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { People, PeopleByState } from './schemas';
-
-type Test = { state: string; quantity: number };
+import { TPeopleByState } from './types';
 
 @Injectable()
 export class PeopleService {
@@ -48,7 +47,7 @@ export class PeopleService {
     );
   }
 
-  private async groupPeopleByState(): Promise<Test[]> {
+  private async groupPeopleByState(): Promise<TPeopleByState> {
     return this.PeopleModel.aggregate([
       {
         $group: {
@@ -66,7 +65,7 @@ export class PeopleService {
     ]);
   }
 
-  private async updatePeopleByState(peopleByState: Test[]) {
+  private async updatePeopleByState(peopleByState: TPeopleByState) {
     this.logger.log('Updating people by state.');
 
     this.logger.debug(peopleByState);
