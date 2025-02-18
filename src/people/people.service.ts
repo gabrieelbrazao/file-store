@@ -1,4 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { PeopleDto } from './dtos';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -17,11 +21,16 @@ export class PeopleService {
   private readonly logger = new Logger(PeopleService.name);
 
   async savePeopleData(people: PeopleDto[]) {
-    await this.savePeople(people);
+    try {
+      await this.savePeople(people);
 
-    const peopleByState = await this.groupPeopleByState();
+      const peopleByState = await this.groupPeopleByState();
 
-    await this.updatePeopleByState(peopleByState);
+      await this.updatePeopleByState(peopleByState);
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Error saving people data');
+    }
   }
 
   private async savePeople(people: PeopleDto[]) {
