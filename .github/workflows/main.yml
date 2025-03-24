@@ -19,16 +19,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install corepack
-        run: npm install -g corepack
+        run: corepack enable
 
       - name: Set Node.js version
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
-
-      - name: Install corepack
-        run: npm install -g corepack
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
